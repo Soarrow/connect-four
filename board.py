@@ -20,22 +20,14 @@ class Board:
 
         board_str = ""
         row_counter = len(self._board) - 2
-        last_row = False
-        for row in self._board:
-            if not last_row:
-                board_str += str(row_counter) + " "
-            else:
-                board_str += "  "
-                
+        for row in self._board[:-1]:
+            board_str += str(row_counter) + " "
             row_str = " ".join(map(str, row))
             board_str += f"{row_str}\n"
-            
-            if row_counter >= 0:
-                row_counter -= 1
-            
-            if row_counter < 0:
-                last_row = True
+            row_counter -= 1
         
+        # handle the last row by itself
+        board_str += "  " + " ".join(map(str, self._board[-1]))
         return board_str
 
     # Functions that determine game logic
