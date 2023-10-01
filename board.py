@@ -11,23 +11,19 @@ class Board:
     # constructor
     def __init__(self):
         self._board = [[0 for col in range(self._cols)] for row in range(self._rows)]
-        self._board.append([i for i in range(7)])
 
     # print the string representation of the board
     def __str__(self):
-        # for row in range(len(self._board)):
-        #     print(self._board[row])
-
         board_str = ""
-        row_counter = len(self._board) - 2
-        for row in self._board[:-1]:
+        row_counter = len(self._board) - 1
+        for row in self._board:
             board_str += str(row_counter) + " "
             row_str = " ".join(map(str, row))
             board_str += f"{row_str}\n"
             row_counter -= 1
         
-        # handle the last row by itself
-        board_str += "  " + " ".join(map(str, self._board[-1]))
+        # add the last coordinate display row
+        board_str += "  " + " ".join(map(str, [i for i in range(len(self._board[0]))]))
         return board_str
 
     # Functions that determine game logic
@@ -48,4 +44,3 @@ class Board:
         y_coord = coordinates.split(",")[1]
 
         # now we need some logic to validate the coordinates
-
