@@ -32,7 +32,13 @@ class Board:
     def run_game(self):
         while True:
             user_coords = input("Please enter the coordinates of where you want to place your coin x,y: ")
-            self.valid_move(user_coords)
+            valid = self.valid_move(user_coords)
+
+            # if the move is valid place the block
+            if valid:
+                self.make_move(user_coords)
+            
+            print(self)
             break;
 
     def valid_move(self, coordinates: str) -> bool:
@@ -40,7 +46,28 @@ class Board:
         # there has to be a coin below it unless it's in the last row
 
         # first we need to break the coordinate into x and y coords
-        x_coord = coordinates.split(",")[0]
-        y_coord = coordinates.split(",")[1]
+        x_coord = int(coordinates.split(",")[0])
+        y_coord = int(coordinates.split(",")[1])
 
         # now we need some logic to validate the coordinates
+
+        # rules, make sure that there is no coin at the coordinate already
+        # make sure that there is a coin beneath it if not in the 0th row
+        # maybe check win condition here?
+        if x_coord != 0 and self._board[x_coord][y_coord] == 0:
+            print("inside if function")
+            return False
+        
+        return True
+
+    def make_move(self, coordinates: str):
+        x_coord = int(coordinates.split(",")[0])
+        y_coord = int(coordinates.split(",")[1])
+
+        translated_x_coord = x_coord + len(self._board) - 1
+
+        self._board[translated_x_coord][y_coord] = "C"
+
+
+
+    # 0,0 should be translated into 5,0
