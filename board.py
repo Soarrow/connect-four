@@ -15,15 +15,12 @@ class Board:
     # print the string representation of the board
     def __str__(self):
         board_str = ""
-        row_counter = len(self._board) - 1
         for row in self._board:
-            board_str += str(row_counter) + " "
             row_str = " ".join(map(str, row))
             board_str += f"{row_str}\n"
-            row_counter -= 1
         
         # add the last coordinate display row
-        board_str += "  " + " ".join(map(str, [i for i in range(len(self._board[0]))]))
+        board_str += " ".join(map(str, [i for i in range(len(self._board[0]))]))
         return board_str
 
     # Functions that determine game logic
@@ -31,42 +28,38 @@ class Board:
     # This function starts the game
     def run_game(self):
         while True:
-            user_coords = input("Please enter the coordinates of where you want to place your coin x,y: ")
-            valid = self.valid_move(user_coords)
+            user_picked_column = int(input("Please enter the column of where you want to place your coin: "))
+            valid = self.valid_move(user_picked_column)
 
             # if the move is valid place the block
             if valid:
-                self.make_move(user_coords)
+                # print("that was a valid move")
+                next_empty_row = self.find_next_valid_row(user_picked_column)
+                self.make_move(next_empty_row, user_picked_column)
+            else:
+                print("That was not a valid move please try again")
+                break
+
             
             print(self)
-            break;
+            # break;
 
-    def valid_move(self, coordinates: str) -> bool:
-        # coordinate cannot be out of bounds
-        # there has to be a coin below it unless it's in the last row
-
-        # first we need to break the coordinate into x and y coords
-        x_coord = int(coordinates.split(",")[0])
-        y_coord = int(coordinates.split(",")[1])
-
-        # now we need some logic to validate the coordinates
-
-        # rules, make sure that there is no coin at the coordinate already
-        # make sure that there is a coin beneath it if not in the 0th row
-        # maybe check win condition here?
-        if x_coord != 0 and self._board[x_coord][y_coord] == 0:
-            print("inside if function")
-            return False
+    def valid_move(self, user_picked_column: int) -> bool:
+        # check to see if the top row is empty, if so then it is a valid move
+        if (self._board[0][user_picked_column] == 0):
+            return True
         
-        return True
+        return False
+    
+    def find_next_valid_row(self, user_picked_column: int) -> int:
+        # find the next empty row of the column picked
 
-    def make_move(self, coordinates: str):
-        x_coord = int(coordinates.split(",")[0])
-        y_coord = int(coordinates.split(",")[1])
+        for i in range(len(self._board)-1, -1, -1):
+            if self._board[i][user_picked_column] == 0:
+                return i
 
-        translated_x_coord = x_coord + len(self._board) - 1
-
-        self._board[translated_x_coord][y_coord] = "C"
+    def make_move(self, next_empty_row, user_picked_column):
+        self._board[next_empty_row][user_picked_column] = "C"
 
 
 
