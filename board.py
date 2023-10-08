@@ -27,7 +27,8 @@ class Board:
 
     # This function starts the game
     def run_game(self):
-        while True:
+        game_end = false
+        while !game_end:
             user_picked_column = int(input("Please enter the column of where you want to place your coin: "))
             valid = self.valid_move(user_picked_column)
 
@@ -39,6 +40,9 @@ class Board:
             else:
                 print("That was not a valid move please try again")
                 break
+            
+            if win_condition():
+                game_end == True;
 
             
             print(self)
@@ -62,5 +66,7 @@ class Board:
         self._board[next_empty_row][user_picked_column] = "C"
 
 
+    def win_condition(self):
+        # implement win condition logic
 
     # 0,0 should be translated into 5,0
