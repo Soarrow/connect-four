@@ -7,6 +7,7 @@ class Board:
     # Generate a connect four board represented by a 2D matric (6x7)
     _rows = 6
     _cols = 7
+    _turn = 0
 
     # constructor
     def __init__(self):
@@ -29,20 +30,28 @@ class Board:
     def run_game(self):
         game_end = false
         while !game_end:
-            user_picked_column = int(input("Please enter the column of where you want to place your coin: "))
-            valid = self.valid_move(user_picked_column)
+            # player one moves
+            if self._turn == 0:
+                user_picked_column = int(input("Please enter the column of where you want to place your coin: "))
+                valid = self.valid_move(user_picked_column)
 
-            # if the move is valid place the block
-            if valid:
-                # print("that was a valid move")
-                next_empty_row = self.find_next_valid_row(user_picked_column)
-                self.make_move(next_empty_row, user_picked_column)
+                # if the move is valid place the block
+                if valid:
+                    # print("that was a valid move")
+                    next_empty_row = self.find_next_valid_row(user_picked_column)
+                    self.make_move(next_empty_row, user_picked_column)
+                else:
+                    print("That was not a valid move please try again")
+                    break
+            # Player two moves
             else:
-                print("That was not a valid move please try again")
-                break
             
+            # check if the game is over if not increment the turn variable
+            # increment the turn
             if win_condition():
                 game_end == True;
+            else:
+                self._turn += 1
 
             
             print(self)
