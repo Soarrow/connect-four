@@ -44,7 +44,7 @@ class Board:
                 else:
                     print("That was not a valid move please try again")
                     break
-                self._turn += 1
+                # self._turn += 1
 
             # Player two moves
             else:
@@ -60,15 +60,13 @@ class Board:
                 else:
                     print("That was not a valid move please try again")
                     break
-                self._turn += 1
 
-            
             # check if the game is over if not increment the turn variable
             # increment the turn
-            # if win_condition():
-            #     game_end = True;
-            # else:
-            #     self._turn += 1
+            if self.win_condition():
+                game_end = True;
+
+            self._turn += 1
 
             
             # printing the board?
@@ -96,14 +94,21 @@ class Board:
 
         self._board[next_empty_row][user_picked_column] = player_piece
 
-    # def win_condition(self):
-        # implement win condition logic
+    def win_condition(self):
+        # Check horizontal
+        # up to the third column you can have a winning horizontal move ... past the third column you can no longer win horizontally
+        player_piece = "C" if self._turn % 2 == 0 else "X"
 
-        # THINGS that we need to check, once placed we need to see if there are 4 of the same colour adjacent to one another
+        # for each row check the next four columns to see if there is a winning combination of player pieces
+        # then move on to the next column in the same row and check the next four spaces to see ifo there is a winning combination
+        for col in range(self._cols - 3):
+            for row in range(self._rows):
+                if self._board[row][col] == player_piece and self._board[row][col + 1] == player_piece and self._board[row][col+2] == player_piece and self._board[row][col+3] == player_piece:
+                    return True
 
-        # search in a square around the area that you have just placed. If there is a colour of the same kind that becomes the new node and then you search again
+        # Check vertical ... I believe this is implemented the same way as the horizontal check --> but just vertically
+        # for row in range(self._row) - 3:
+        #     for col in range(self._col):
 
-        # if you are able to count 3 in a row then you have won the game ... once at a new node you cannot come back to the same level if you have left the previous level
-        # this applies horizontally or vertically
 
-    # 0,0 should be translated into 5,0
+
