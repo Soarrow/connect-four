@@ -103,12 +103,13 @@ class Board:
         # then move on to the next column in the same row and check the next four spaces to see ifo there is a winning combination
         for col in range(self._cols - 3):
             for row in range(self._rows):
-                if self._board[row][col] == player_piece and self._board[row][col + 1] == player_piece and self._board[row][col+2] == player_piece and self._board[row][col+3] == player_piece:
+                if self._board[row][col] == player_piece and self._board[row][col + 1] == player_piece and self._board[row][col + 2] == player_piece and self._board[row][col + 3] == player_piece:
                     return True
 
-        # Check vertical ... I believe this is implemented the same way as the horizontal check --> but just vertically
-        # for row in range(self._row) - 3:
-        #     for col in range(self._col):
-
-
-
+        # Check vertical winning conditions
+        # for each column check the next four rows to see iof there is a winning combination of pieces
+        # then move onto the next row in the same col and check the next four pieces etc.
+        for col in range(self._cols):
+            for row in range(self._rows - 3):
+                if self._board[row][col] == player_piece and self._board[row + 1][col] == player_piece and self._board[row + 2][col] == player_piece and self._board[row + 3][col] == player_piece:
+                    return True
