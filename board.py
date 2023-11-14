@@ -95,10 +95,10 @@ class Board:
         self._board[next_empty_row][user_picked_column] = player_piece
 
     def win_condition(self):
-        # Check horizontal
         # up to the third column you can have a winning horizontal move ... past the third column you can no longer win horizontally
         player_piece = "C" if self._turn % 2 == 0 else "X"
 
+        # Check horizontal
         # for each row check the next four columns to see if there is a winning combination of player pieces
         # then move on to the next column in the same row and check the next four spaces to see ifo there is a winning combination
         for col in range(self._cols - 3):
