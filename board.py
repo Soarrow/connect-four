@@ -101,8 +101,14 @@ class Board:
         # Check horizontal
         # for each row check the next four columns to see if there is a winning combination of player pieces
         # then move on to the next column in the same row and check the next four spaces to see ifo there is a winning combination
-        for col in range(self._cols - 3):
-            for row in range(self._rows):
+        # for col in range(self._cols - 3):
+        #     for row in range(self._rows):
+        #         if self._board[row][col] == player_piece and self._board[row][col + 1] == player_piece and self._board[row][col + 2] == player_piece and self._board[row][col + 3] == player_piece:
+        #             return True
+
+        # Another way to check the horizontal win conditions
+        for row in range(self._rows):
+            for col in range(self._cols - 3):
                 if self._board[row][col] == player_piece and self._board[row][col + 1] == player_piece and self._board[row][col + 2] == player_piece and self._board[row][col + 3] == player_piece:
                     return True
 
@@ -113,3 +119,5 @@ class Board:
             for row in range(self._rows - 3):
                 if self._board[row][col] == player_piece and self._board[row + 1][col] == player_piece and self._board[row + 2][col] == player_piece and self._board[row + 3][col] == player_piece:
                     return True
+
+        # Check diagonal win conditions
