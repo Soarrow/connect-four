@@ -126,4 +126,9 @@ class Board:
             for col in range(self._cols - 3):
                 if self._board[row][col] == player_piece and self._board[row + 1][col + 1] == player_piece and self._board[row + 2][col + 2] == player_piece and self._board[row + 3][col + 3] == player_piece:
                     return True
-                
+
+        # Check the positive diagonals for possible wins
+        for row in range(self._rows - 1, self._rows - 4, -1):
+            for col in range(self._cols - 3):
+                if self._board[row][col] == player_piece and self._board[row - 1][col + 1] == player_piece and self._board[row - 2][col + 2] == player_piece and self._board[row - 3][col + 3] == player_piece:
+                    return True
