@@ -120,4 +120,10 @@ class Board:
                 if self._board[row][col] == player_piece and self._board[row + 1][col] == player_piece and self._board[row + 2][col] == player_piece and self._board[row + 3][col] == player_piece:
                     return True
 
-        # Check diagonal win conditions
+        # Check diagonal win conditions have to do it both ways: positively slopped and negatively slopped
+        # check diagonals first cause that is easier lmao
+        for row in range(self._rows - 3):
+            for col in range(self._cols - 3):
+                if self._board[row][col] == player_piece and self._board[row + 1][col + 1] == player_piece and self._board[row + 2][col + 2] == player_piece and self._board[row + 3][col + 3] == player_piece:
+                    return True
+                
