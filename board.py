@@ -7,8 +7,8 @@ class Board:
     # Generate a connect four board represented by a 2D matric (6x7)
     _rows = 6
     _cols = 7
-    _turn = 0
     _game_end = False
+    _player_number = 1
 
     # constructor
     def __init__(self):
@@ -34,12 +34,13 @@ class Board:
             # printing the board
             print(self)
             print("")
+        
+        print(f"Congratulations player {self._player_number}! You won")
     
     # This function is called when it's a player's turn to make a move
     def player_make_move(self):
-        player_number = 1 if self._turn % 2 == 0 else 2
 
-        print(f"Player {player_number}'s turn")
+        print(f"Player {self._player_number}'s turn")
         user_picked_column = int(input("Please enter the column of where you want to place your coin: "))
         valid = self.valid_move(user_picked_column)
 
@@ -55,7 +56,10 @@ class Board:
         if self.win_condition():
                 self._game_end = True;
 
-        self._turn += 1
+        if self._player_number == 1 and self._game_end is not True:
+            self._player_number = 2
+        elif self._player_number == 2 and self._game_end is not True:
+            self._player_number = 1
 
 
     def valid_move(self, user_picked_column: int) -> bool:
@@ -75,13 +79,13 @@ class Board:
     # This funciton places the piece that a palyer wants to make
     def make_move(self, next_empty_row, user_picked_column):
         # Change the player piece based on whose turn it is
-        player_piece = "C" if self._turn % 2 == 0 else "X"
+        player_piece = "C" if self._player_number == 1 else "X"
 
         self._board[next_empty_row][user_picked_column] = player_piece
 
     def win_condition(self):
         # up to the third column you can have a winning horizontal move ... past the third column you can no longer win horizontally
-        player_piece = "C" if self._turn % 2 == 0 else "X"
+        player_piece = "C" if self._player_number == 1 else "X"
 
         # Check horizontal
         # for each row check the next four columns to see if there is a winning combination of player pieces
