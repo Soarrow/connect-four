@@ -8,6 +8,7 @@ class Board:
     _rows = 6
     _cols = 7
     _turn = 0
+    _game_end = False
 
     # constructor
     def __init__(self):
@@ -28,51 +29,34 @@ class Board:
 
     # This function starts the game
     def run_game(self):
-        game_end = False
-        while not game_end:
-            # player one moves
-            if self._turn % 2 == 0:
-                print("Player 1's turn")
-                user_picked_column = int(input("Please enter the column of where you want to place your coin: "))
-                valid = self.valid_move(user_picked_column)
-
-                # if the move is valid place the block
-                if valid:
-                    # print("that was a valid move")
-                    next_empty_row = self.find_next_valid_row(user_picked_column)
-                    self.make_move(next_empty_row, user_picked_column)
-                else:
-                    print("That was not a valid move please try again")
-                    break
-                # self._turn += 1
-
-            # Player two moves
-            else:
-                print("Player 2's turn")
-                user_picked_column = int(input("Please enter the column of where you want to place your coin: "))
-                valid = self.valid_move(user_picked_column)
-
-                # if the move is valid place the block
-                if valid:
-                    # print("that was a valid move")
-                    next_empty_row = self.find_next_valid_row(user_picked_column)
-                    self.make_move(next_empty_row, user_picked_column)
-                else:
-                    print("That was not a valid move please try again")
-                    break
-
-            # check if the game is over if not increment the turn variable
-            # increment the turn
-            if self.win_condition():
-                game_end = True;
-
-            self._turn += 1
-
-            
-            # printing the board?
+        while not self._game_end:
+            self.player_make_move()
+            # printing the board
             print(self)
             print("")
-            # break;
+    
+    # This function is called when it's a player's turn to make a move
+    def player_make_move(self):
+        player_number = 1 if self._turn % 2 == 0 else 2
+
+        print(f"Player {player_number}'s turn")
+        user_picked_column = int(input("Please enter the column of where you want to place your coin: "))
+        valid = self.valid_move(user_picked_column)
+
+        # if the move is valid place the block
+        if valid:
+            # print("that was a valid move")
+            next_empty_row = self.find_next_valid_row(user_picked_column)
+            self.make_move(next_empty_row, user_picked_column)
+            
+        else:
+            print("That was not a valid move please try again")
+        
+        if self.win_condition():
+                self._game_end = True;
+
+        self._turn += 1
+
 
     def valid_move(self, user_picked_column: int) -> bool:
         # check to see if the top row is empty, if so then it is a valid move
@@ -88,6 +72,7 @@ class Board:
             if self._board[i][user_picked_column] == 0:
                 return i
 
+    # This funciton places the piece that a palyer wants to make
     def make_move(self, next_empty_row, user_picked_column):
         # Change the player piece based on whose turn it is
         player_piece = "C" if self._turn % 2 == 0 else "X"
