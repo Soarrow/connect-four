@@ -1,3 +1,6 @@
+import pygame
+import sys
+
 class Board:
     """
     A Connect Four board represented as a 2D matrix (6x7).
@@ -9,6 +12,17 @@ class Board:
     _cols = 7
     _game_end = False
     _player_number = 1
+
+    # Using pygame to generate the game
+    _squaresize = 100 # what we define a square to be in px?s
+    _width = _cols * _squaresize
+    _height = (_rows + 1) * _squaresize
+    _size = (_width, _height) # used to define the size of the screen
+
+    _radius = int(_squaresize/2 - 5)
+
+    _BLUE = (0,0,255)
+    _BLACK = (0,0,0)
 
     # constructor
     def __init__(self):
@@ -29,13 +43,33 @@ class Board:
 
     # This function starts the game
     def run_game(self):
+
+        # initialise pygame
+        pygame.init()
+
+        # Create 
+        screen = pygame.display.set_mode(self._size)
+
+        self.draw_board(screen)
+        pygame.display.update()
+
         while not self._game_end:
-            self.player_make_move()
-            # printing the board
-            print(self)
-            print("")
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                
+
+
+                # if event.type == pygame.MOUSEBUTTONDOWN:
+
+
+            # self.player_make_move()
+            # # printing the board
+            # print(self)
+            # print("")
         
-        print(f"Congratulations player {self._player_number}! You won")
+        # print(f"Congratulations player {self._player_number}! You won")
     
     # This function is called when it's a player's turn to make a move
     def player_make_move(self):
@@ -121,3 +155,9 @@ class Board:
             for col in range(self._cols - 3):
                 if self._board[row][col] == player_piece and self._board[row - 1][col + 1] == player_piece and self._board[row - 2][col + 2] == player_piece and self._board[row - 3][col + 3] == player_piece:
                     return True
+
+    def draw_board(self, screen):
+        for row in range(self._rows):
+            for col in range(self._cols):
+                pygame.draw.rect(screen, self._BLUE, (col*self._squaresize, row*self._squaresize+self._squaresize, self._squaresize, self._squaresize))
+                pygame.draw.circle(screen, self._BLACK, (col*self._squaresize + self._squaresize/2, row*self._squaresize+self._squaresize+self._squaresize/2), self._radius)
